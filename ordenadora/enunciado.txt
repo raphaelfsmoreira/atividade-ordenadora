@@ -1,0 +1,18 @@
+Haverá no seu programa dois (2) tipos de treads, treads ordenadoras e treads misturadoras (mergeadoras).
+
+Seu programa pergunta ao usuário quantos elementos quer no vetor e se quer digita-los ou se quer que sejam gerados
+aleatoriamente e seu programa atende o usuário, e então dividir o vetor em N pedaços sendo N a quantidade
+de processadores -1. Starta ANY treads do tipo ordenadora fornecendo para o construtor de cada uma, um pedaço do vetor.
+As treads ordenarão o pedaço recebido de forma tradicional (Recursiva).
+
+A main espera usando o método join as ordenadoras terminarem e usa o método delas para pegar o resultado já ordenado
+de cada um ("NÃO PODE PEGAR OS RESULTADO SEM ESPERAR O TERMINO USANDO O JOIN")
+
+
+A main faz várias rodadas de start de tread misturadoras. Any sobre dois treads na primeira rodada, any sobre quatro na
+segunda,..., um na última rodada.
+
+A main deve esperar uma rodada par para começar outra usando os resultados da rodada esperada.
+
+Depois o programa oferece várias vezes o menu, com a opção de pritar o vetor inteiro, um pedaço dele (De uma posição
+digitada até outra), Mostrar o tempo no processo de ordenação paralelo ou sair do programa.
