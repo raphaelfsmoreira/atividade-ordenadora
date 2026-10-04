@@ -1,139 +1,130 @@
 package ordenadora;
 
 import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
 
-public class InterfaceConsole{
+public final class Console{
 
-    private final Scanner scanner;
+    private Console() {}
 
-    // Construtor da interface do console recebe um objeto Scanner para input vindo da main.
+    // Metodo que imprime a tela inicial do programa
+    // Ele retorna o vetor de entrada inputado pelo usuario
 
-    public InterfaceConsole(Scanner scanner){
+    public static int[] telaInicial(){
 
-        this.scanner = scanner;
+        System.out.println("");
 
-    }
+        System.out.println("Insira o tamanho do vetor a ser ordenado:");
 
-    // Primeira pergunta ao usuário é o tamanho do vetor, seguido de que se deseja completá-lo
-    // com valores inseridos manualmente ou que sejam preenchidos com valores aleatórios.
+        // O vetor devera ter, no minimo, um elemento.
+        int tamanho = Teclado.lerInteiro(1, Integer.MAX_VALUE);
 
-    public int[] obterVetor(){
+        System.out.println("Como deseja gerar os valores do vetor?");
+        System.out.println("""
+                [1] - Gerar manualmente
+                [2] - Gerar aleatoriamente
+                """);
 
-        int tamanho = lerInteiro(
-                "Quantos elementos deseja no vetor?", // Enunciado de pergunta no console
-                1, // Valor mínimo para validação.
-                Integer.MAX_VALUE // Valor máximo possível num int em Java.
-        );
+        int opcao = Teclado.lerInteiro(1,2);
 
-        System.out.println("\n Como deseja preencher o vetor?");
-        System.out.println("[1] - Digitar valores manualmente");
-        System.out.println("[2] - Gerar valores aleatoriamente");
-
-        int opcao = lerInteiro(
-                "Escolha sua opção:",
-                1,
-                2
-        )
-
-        if(opcao == 1){ vetor = gerarVetorManualmente(tamanho); }
-
-        return gerarVetorAleatorio(tamanho);
-
-    }
-
-    // Método para obter os valores inseridos manualmente pelo usuário para preencher o vetor
-
-    private int[] gerarVetorManualmente(int tamanhoVetor){
-
-        int[] vetor = new int[tamanho];
-
-        for(i = 0; i < tamanho; i++){
-
-            // Vetor na posição i recebe um int
-            vetor[i] = lerInteiro(
-                    "Elemento [" + i + "] = ",
-                    Integer.MIN_VALUE,
-                    Integer.MAX_VALUE
+        // Os metodos de GerarVetor ja retornam um array de int que é o próprio retorno do
+        // método corrente.
+        return switch (opcao) {
+            case 1 -> GeradorVetor.gerarManual(tamanho);
+            case 2 -> GeradorVetor.gerarAleatorio(tamanho);
+            default -> throw new IllegalStateException(
+                    "Uma opção inesperada foi recebida:" + opcao
             );
-        }
-
-        return vetor;
+        };
     }
 
-    private int[] gerarVetorAleatorio(int tamanhoVetor){
+    public static void telaDeResultado(
+            int[] vetorOriginal,
+            int[] vetorOrdenado,
+            double tempoExecucaoSequencial,
+            double tempoExecucaoParalela
+    ) {
 
-        int[] vetor = new int[tamanho];
+        System.out.println("Vetor ordenado com sucesso!");
 
-        for(i = 0; i < tamanho; i++){
+        while(true){
 
-            vetor[i] = Random.nextInt(100000);
+            System.out.println("Selecione a opção:");
+            System.out.println("""
+                [1] - Exibir vetor original
+                [2] - Exibir vetor ordenado
+                [3] - Exibir tempo de execução
+                [4] - Reiniciar novo vetor
+                
+                [5] - Sair
+                """);
 
-        }
+            int opcao = Teclado.lerInteiro(1, 5);
 
-        System.out.println("Vetor aleatório gerado");
-
-        return vetor;
-
-    }
-
-
-    // Método para ler inteiros do console.
-    // Cada leitura é associada a um enunciado com mensagem (pergunta ao usuário),
-    // e um valor mínimo e máximo que passará por validação.
-    private int lerInteiro(String mensagem, int minimo, int maximo) {
-
-        // Fica recursivamente tentando obter um int válido
-        while (true) {
-
-            System.out.print(mensagem);
-
-            // Lê a linha inteira para evitar problemas de quebra
-            // de linha ao misturar nextInt() e nextLine().
-            String entrada = scanner.nextLine().trim();
-
-            try {
-                int valor = Integer.parseInt(entrada);
-
-                // Validação.
-                if (valor >= minimo && valor <= maximo) {
-                    return valor;
-                }
-
-                System.out.printf(
-                        "Digite um valor entre %d e %d.%n",
-                        minimo,
-                        maximo
-                );
-            } catch (NumberFormatException e) {
-                System.out.println("Digite um número inteiro válido.");
+            switch (opcao) {
+                case 1 -> imprimirVetor(vetorOriginal);
+                case 2 -> imprimirVetor(vetorOrdenado);
+                case 3 -> imprimirTempoDeExecucação(tempoExecucaoSequencial, tempoExecucaoParalela);
+                case 4 -> { return; }
+                case 5 -> System.exit(0);
             }
         }
     }
 
-    public int exibirMenu(int[] vetorOrdenado, long tempoExecucao){
+    private static void imprimirVetor(int[] vetor){
 
-        while(True){
-            System.out.println("======= VETOR ORDENADO COM SUCESSO ========");
-            System.out.println("[1] - Exibir vetor ordenado");
-            System.out.println("[2] - Exibir um intervalo do vetor");
-            System.out.println("[3] - Exibir tempo de execução");
-            System.out.println("[4] - Testar novo vetor");
-            System.out.println("");
-            System.out.println("[5] - Sair");
+        System.out.println("""
+            //
+            // EXIBIÇÃO DO VETOR
+            //
+            """);
 
+        System.out.println("Tamanho do vetor: " + vetor.length);
+
+        System.out.println("""
+            [1] - Exibir vetor completo
+            [2] - Exibir os primeiros 100 elementos
+            """);
+
+        int opcao = Teclado.lerInteiro(1, 2);
+
+        // O metodo Arrays.toString transforma o array em formato de string. Exemplo: [1, 2, 3, 4]
+        switch (opcao) {
+            case 1 -> {
+                System.out.println(Arrays.toString(vetor));
+            }
+
+            case 2 -> {
+                int limite = Math.min(100, vetor.length);
+
+                int[] amostra = Arrays.copyOfRange(vetor, 0, limite);
+
+                System.out.println(Arrays.toString(amostra));
+            }
         }
 
-        switch (opcao){
-            case 1: hi
-            case 2:
-            case 3:
-            case 4:
-                return;
-            case 5:
-                System.exit(0);
+        Teclado.aguardarTecla();
+    }
 
-        }
+    private static void imprimirTempoDeExecucação(double tempoExecucaoSequencial,
+                                                  double tempoExecucaoParalela){
+
+        double speedup = tempoExecucaoSequencial / tempoExecucaoParalela;
+
+        System.out.println("""
+                //
+                // PERFORMANCE DE EXECUÇÃO
+                //
+                """);
+
+        System.out.printf("Tempo sequencial: %.3f ms%n",
+                tempoExecucaoSequencial);
+
+        System.out.printf("Tempo paralelo:   %.3f ms%n",
+                tempoExecucaoParalela);
+
+        System.out.printf("Speedup:          %.2fx%n",
+                speedup);
+
+        Teclado.aguardarTecla();
     }
 }
