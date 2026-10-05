@@ -2,6 +2,8 @@ package ordenadora;
 
 import java.util.Arrays;
 
+
+// Classe com métodos estáticos para exibição de interface
 public final class Console{
 
     private Console() {}
@@ -11,7 +13,20 @@ public final class Console{
 
     public static int[] telaInicial(){
 
-        System.out.println("");
+        System.out.println("""
+        ========================================================
+                    ORDENAÇÃO PARALELA DE VETORES
+        ========================================================
+                      PUC-Campinas
+                  Engenharia de Software
+
+          Ordenação com threads e intercalação por Merge Sort
+        --------------------------------------------------------
+          1. Defina o tamanho e os valores do vetor.
+          2. Aguarde a ordenação sequencial e paralela.
+          3. Consulte o resultado e o tempo de execução.
+        ========================================================
+        """);
 
         System.out.println("Insira o tamanho do vetor a ser ordenado:");
 
