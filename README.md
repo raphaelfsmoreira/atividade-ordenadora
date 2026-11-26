@@ -85,11 +85,23 @@ server/                     # Reservado para os componentes de servidor
 Na raiz do projeto, compile os arquivos dos pacotes `client` e `utils`:
 
 ```bash
-javac -d out client/*.java utils/*.java
-java -cp out client.Main
+javac -d build client/*.java utils/*.java
+java -cp build client.Main
 ```
 
 No Windows PowerShell, se o curinga não for expandido pelo terminal, compile usando o IntelliJ IDEA ou o VS Code com a extensão Java, ou informe os arquivos `.java` explicitamente ao `javac`.
+
+### Executar o exemplo distribuído
+
+Na raiz do projeto, execute `run.bat` e escolha uma opção, ou passe-a diretamente:
+
+```text
+run.bat client
+run.bat server
+run.bat both
+```
+
+`client` inicia o Coordenador e solicita N e os endereços dos trabalhadores (`host:porta`). `server` inicia um Trabalhador na porta informada (3001 por padrão). `both` pergunta quantos trabalhadores iniciar (3 por padrão), abre cada um em uma nova janela usando portas consecutivas a partir da porta informada (3001 por padrão) e executa o Coordenador conectado a eles.
 
 ## Interação pelo console
 

@@ -4,17 +4,17 @@ Ideia: o Coordenador divide a soma de 1 ate N entre varios Trabalhadores
 (cada um um programa separado, em sua propria porta/maquina), pede a
 cada um a sua parte ao mesmo tempo e junta os resultados.
 
-Compilar (uma vez em cada pasta):
-    cd Trabalhador  && javac *.java
-    cd Coordenador  && javac *.java
+Compilar (a partir da pasta raiz do projeto):
+    javac -d build\Trabalhador Trabalhador\*.java
+    javac -d build\Coordenador Coordenador\*.java
 
 Executar (um terminal por trabalhador):
-    cd Trabalhador  && java Trabalhador 3001
-    cd Trabalhador  && java Trabalhador 3002
-    cd Trabalhador  && java Trabalhador 3003
+    java -cp build\Trabalhador Trabalhador 3001
+    java -cp build\Trabalhador Trabalhador 3002
+    java -cp build\Trabalhador Trabalhador 3003
 
 Depois, em outro terminal:
-    cd Coordenador  && java Coordenador 1000 localhost:3001 localhost:3002 localhost:3003
+    java -cp build\Coordenador Coordenador 1000 localhost:3001 localhost:3002 localhost:3003
 
 Em maquinas diferentes, troque "localhost" pelo IP/nome de cada trabalhador.
 
