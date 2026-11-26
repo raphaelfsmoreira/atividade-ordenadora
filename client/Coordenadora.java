@@ -9,7 +9,7 @@
 // 5. Criar e executar as threads misturadoras (metodo
 // 6. Retornar o vetor ordenado
 
-package ordenadora;
+package client;
 
 import java.util.Arrays;
 

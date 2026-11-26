@@ -38,7 +38,7 @@ Exemplo com oito partições:
 2 partições → 1 thread misturadora  → 1 vetor ordenado
 ```
 
-A classe `Coordenadora` reúne os métodos estáticos de particionamento, execução das ordenadoras e execução das misturadoras. A `Main` chama essas etapas em sequência.
+A classe `Coordenadora` reúne os métodos de particionamento e execução das ordenadoras e misturadoras. `GeradorVetor`, `MergeSort` e `Teclado` são utilitários compartilhados no pacote `utils`.
 
 ## Medição de desempenho
 
@@ -63,16 +63,18 @@ O tempo paralelo total deve incluir particionamento, criação e sincronização
 ## Estrutura do código
 
 ```text
-ordenadora/
+client/
 ├── Main.java               # Fluxo principal
 ├── Console.java            # Entrada, menus e exibição dos resultados
-├── MergeSort.java          # Ordenação recursiva e intercalação
 ├── Coordenadora.java       # Particionamento e gerenciamento de threads
 ├── ThreadOrdenadora.java   # Ordena uma partição
 └── ThreadMisturadora.java  # Intercala duas partições ordenadas
+utils/
+├── GeradorVetor.java       # Geração manual e aleatória de vetores
+├── MergeSort.java          # Ordenação recursiva e intercalação
+└── Teclado.java            # Leitura e validação de dados no console
+server/                     # Reservado para os componentes de servidor
 ```
-
-> A estrutura acima representa a organização discutida para a versão final do projeto. O código-fonte deve ser mantido atualizado com ela.
 
 ## Requisitos e execução
 
@@ -80,11 +82,11 @@ ordenadora/
 - JDK instalado e disponível no terminal.
 - Não são necessárias bibliotecas externas para o algoritmo.
 
-Na raiz do projeto, considerando os arquivos `.java` dentro da pasta `ordenadora/` e os nomes de pacote `ordenadora`:
+Na raiz do projeto, compile os arquivos dos pacotes `client` e `utils`:
 
 ```bash
-javac -d out ordenadora/*.java
-java -cp out ordenadora.Main
+javac -d out client/*.java utils/*.java
+java -cp out client.Main
 ```
 
 No Windows PowerShell, se o curinga não for expandido pelo terminal, compile usando o IntelliJ IDEA ou o VS Code com a extensão Java, ou informe os arquivos `.java` explicitamente ao `javac`.

@@ -1,8 +1,8 @@
-package ordenadora;
+package utils;
 
 import java.util.Scanner;
 
-final class Teclado{
+public final class Teclado{
 
     private static final Scanner SCANNER = new Scanner(System.in);
 

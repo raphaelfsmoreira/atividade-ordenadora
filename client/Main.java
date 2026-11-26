@@ -1,4 +1,6 @@
-package ordenadora;
+package client;
+
+import utils.MergeSort;
 
 public class Main {
 

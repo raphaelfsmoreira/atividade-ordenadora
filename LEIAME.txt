@@ -1,0 +1,25 @@
+SOMADOR DISTRIBUIDO - exemplo didatico (threads + sockets)
+
+Ideia: o Coordenador divide a soma de 1 ate N entre varios Trabalhadores
+(cada um um programa separado, em sua propria porta/maquina), pede a
+cada um a sua parte ao mesmo tempo e junta os resultados.
+
+Compilar (uma vez em cada pasta):
+    cd Trabalhador  && javac *.java
+    cd Coordenador  && javac *.java
+
+Executar (um terminal por trabalhador):
+    cd Trabalhador  && java Trabalhador 3001
+    cd Trabalhador  && java Trabalhador 3002
+    cd Trabalhador  && java Trabalhador 3003
+
+Depois, em outro terminal:
+    cd Coordenador  && java Coordenador 1000 localhost:3001 localhost:3002 localhost:3003
+
+Em maquinas diferentes, troque "localhost" pelo IP/nome de cada trabalhador.
+
+Correspondencia com o Fazedor de Continhas:
+    Servidor/AceitadoraDeConexao  -> Trabalhador/AceitadoraDeConexao (igual)
+    Servidor/SupervisoraDeConexao -> Trabalhador/SupervisoraDeConexao (atende PedidoDeSoma)
+    Parceiro, Comunicado, PedidoParaSair -> iguais
+    Cliente (1 servidor)          -> Coordenador (varios servidores, 1 thread por conversa)

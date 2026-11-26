@@ -1,6 +1,8 @@
-package ordenadora;
+package client;
 
 import java.util.Arrays;
+import utils.GeradorVetor;
+import utils.Teclado;
 
 
 // Classe com métodos estáticos para exibição de interface
