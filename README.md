@@ -93,15 +93,27 @@ No Windows PowerShell, se o curinga não for expandido pelo terminal, compile us
 
 ### Executar o exemplo distribuído
 
-Na raiz do projeto, execute `run.bat` e escolha uma opção, ou passe-a diretamente:
+Na raiz do projeto, compile com `compilar.bat` e execute `executar.bat`; escolha uma opção no menu ou passe-a diretamente:
 
 ```text
-run.bat client
-run.bat server
-run.bat both
+executar.bat coordenador
+executar.bat trabalhador
+executar.bat ambos
 ```
 
-`client` inicia o Coordenador e solicita N e os endereços dos trabalhadores (`host:porta`). `server` inicia um Trabalhador na porta informada (3001 por padrão). `both` pergunta quantos trabalhadores iniciar (3 por padrão), abre cada um em uma nova janela usando portas consecutivas a partir da porta informada (3001 por padrão) e executa o Coordenador conectado a eles.
+`coordenador` solicita N e os endereços dos trabalhadores (`host:porta`). `trabalhador` inicia um Trabalhador na porta informada (3001 por padrão). `ambos` pergunta quantos trabalhadores iniciar (3 por padrão), abre cada um em uma nova janela usando portas consecutivas a partir da porta informada (3001 por padrão) e executa o Coordenador conectado a eles.
+
+### Protocolo de mensagens
+
+Cliente e servidor trocam objetos serializáveis que herdam de `Comunicado`. As classes do protocolo existem nos dois diretórios (`coordenador` e `trabalhador`) e devem manter os mesmos nomes e campos serializados:
+
+1. O cliente envia `PedidoDeCapacidade`; o servidor responde `CapacidadeDoServidor`, com a quantidade de processadores lógicos disponíveis.
+2. Para ordenar, o cliente envia `PedidoDeOrdenacao` com um identificador único na sessão e o vetor. O servidor responde `OrdenacaoPronta` e, em seguida, `ResultadoDeOperacao` com o mesmo identificador e o vetor ordenado.
+3. Para intercalar, o cliente envia `PedidoDeMergeamento` com o identificador e os dois vetores já ordenados. O servidor responde `MergeamentoPronto` e, em seguida, `ResultadoDeOperacao` com o mesmo identificador e o vetor resultante.
+4. Se uma ordenação ou intercalação falhar, o servidor responde `ErroDeOperacao` com o identificador e uma mensagem. O cliente deve conferir o identificador e o tipo de cada resposta antes de usá-la.
+5. O cliente encerra a sessão enviando `PedidoParaSair`. A conexão permite apenas uma operação pendente por vez; operações sucessivas usam identificadores distintos.
+
+Os arrays das mensagens são copiados ao construir a mensagem e ao consultá-la, evitando que alterações locais mudem os dados do protocolo.
 
 ## Interação pelo console
 

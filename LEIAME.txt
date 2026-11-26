@@ -7,6 +7,7 @@ cada um a sua parte ao mesmo tempo e junta os resultados.
 Compilar (a partir da pasta raiz do projeto):
     javac -d build\Trabalhador Trabalhador\*.java
     javac -d build\Coordenador Coordenador\*.java
+    ou execute compilar.bat
 
 Executar (um terminal por trabalhador):
     java -cp build\Trabalhador Trabalhador 3001
@@ -15,6 +16,9 @@ Executar (um terminal por trabalhador):
 
 Depois, em outro terminal:
     java -cp build\Coordenador Coordenador 1000 localhost:3001 localhost:3002 localhost:3003
+
+Ou execute executar.bat para escolher no menu; a opcao "ambos" inicia
+trabalhadores em novas janelas e conecta o Coordenador a eles.
 
 Em maquinas diferentes, troque "localhost" pelo IP/nome de cada trabalhador.
 
